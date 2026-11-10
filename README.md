@@ -5,8 +5,8 @@ Neuaufbau von [lsv-ventures.de](https://lsv-ventures.de) mit [Astro](https://ast
 | Seite | Deutsch | Englisch |
 | --- | --- | --- |
 | Startseite | `/` | `/en/` |
-| Impressum | `/impressum` | `/en/imprint` |
-| Datenschutz | `/datenschutz` | `/en/privacy` |
+| Impressum | `/impressum` | – (nur Deutsch, Footer verlinkt die deutsche Fassung) |
+| Datenschutz | `/datenschutz` | – (nur Deutsch, Footer verlinkt die deutsche Fassung) |
 
 ## Lokal starten
 
@@ -44,13 +44,12 @@ public/                Favicon und Downloads (Basis-Informationsblatt)
 - **Texte (beide Sprachen):** `src/i18n/de.ts` und `src/i18n/en.ts`. Beide Dateien haben dieselbe Struktur; `astro check` meldet einen Fehler, wenn im Englischen ein Feld fehlt.
 - **Team, Portfolio, Kennzahlen:** Bilder/Namen/Zahlen in `src/data/site.ts`, die zugehörigen Texte (Rolle, Branche …) in den i18n-Dateien – jeweils in derselben Reihenfolge.
 - **Neues Bild:** in `src/assets/images/…` ablegen und in `src/data/site.ts` importieren.
-- **Impressum/Datenschutz:** `src/pages/impressum.astro`, `src/pages/en/imprint.astro`, `src/content/*.html`.
+- **Impressum/Datenschutz:** `src/pages/impressum.astro`, `src/pages/datenschutz.astro` mit `src/content/datenschutz.html` – nur auf Deutsch, die englischen Seiten verlinken im Footer auf die deutsche Fassung.
 - **Farben/Schrift:** CSS-Variablen in `src/styles/global.css` (`--petrol`, `--mint`, `--green`, …).
 
 ## Hinweise
 
 - Die Schrift „Work Sans“ wird selbst gehostet (`@fontsource/work-sans`), es werden keine Google-Server angefragt.
 - Es gibt keine Cookies, kein Tracking und kein Kontaktformular – der Kontakt läuft per `mailto:`-Link an info@lsv-ventures.de.
-- Die englischen Rechtstexte sind als Übersetzung gekennzeichnet; rechtsverbindlich ist die deutsche Fassung.
 - Die Datenschutzerklärung ist 1:1 von der alten Seite übernommen und erwähnt noch Borlabs Cookie, Google Fonts und das Kontaktformular. **Vor dem Livegang rechtlich prüfen und anpassen lassen.**
 - Hosting: rein statischer Build (`dist/`), läuft auf jedem Webspace oder bei Netlify, Vercel, GitHub Pages usw. Sobald die Domain feststeht, `site` in `astro.config.mjs` setzen.

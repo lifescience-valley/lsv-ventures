@@ -20,11 +20,19 @@ export function useTranslations(lang: Lang): Dictionary {
   return dictionaries[lang];
 }
 
-/** Seiten mit ihren URLs je Sprache – Grundlage für Sprachumschalter und hreflang. */
-export const routes = {
+/**
+ * Seiten mit ihren URLs je Sprache – Grundlage für Sprachumschalter und hreflang.
+ * Impressum und Datenschutz gibt es bewusst nur auf Deutsch (rechtsverbindliche Fassung).
+ */
+export const routes: Record<'home' | 'imprint' | 'privacy', Partial<Record<Lang, string>> & { de: string }> = {
   home: { de: '/', en: '/en/' },
-  imprint: { de: '/impressum', en: '/en/imprint' },
-  privacy: { de: '/datenschutz', en: '/en/privacy' },
-} as const;
+  imprint: { de: '/impressum' },
+  privacy: { de: '/datenschutz' },
+};
 
 export type RouteKey = keyof typeof routes;
+
+/** URL einer Seite in der gewünschten Sprache; fehlt die Übersetzung, die deutsche Fassung. */
+export function pathFor(route: RouteKey, lang: Lang): string {
+  return routes[route][lang] ?? routes[route].de;
+}

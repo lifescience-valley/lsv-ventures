@@ -1,16 +1,19 @@
 ---
 import { Image } from 'astro:assets';
 import { supporters } from '../data/site';
-import { getLang, routes, useTranslations } from '../i18n';
+import { getLang, pathFor, routes, useTranslations } from '../i18n';
 
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang).footer;
+// Impressum und Datenschutz gibt es nur auf Deutsch – auf englischen Seiten entsprechend auszeichnen
+const legalLang = (key: 'privacy' | 'imprint') => (routes[key][lang] ? undefined : 'de');
 ---
 
 <footer class="site-footer">
   <div class="container footer-inner">
     <p class="legal-links">
-      <a href={routes.privacy[lang]}>{t.privacy}</a> / <a href={routes.imprint[lang]}>{t.imprint}</a>
+      <a href={pathFor('privacy', lang)} hreflang={legalLang('privacy')}>{t.privacy}</a> /
+      <a href={pathFor('imprint', lang)} hreflang={legalLang('imprint')}>{t.imprint}</a>
     </p>
     <div class="supporters">
       <span>{t.supportedBy}</span>

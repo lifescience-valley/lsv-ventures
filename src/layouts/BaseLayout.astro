@@ -15,7 +15,11 @@ const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang).meta;
 const { title, description = t.description, route } = Astro.props;
 const pageTitle = `${title ?? t.homeTitle} – ${t.siteName}`;
-const alternates = (Object.keys(languages) as Lang[]).map((l) => ({ lang: l, href: routes[route][l] }));
+// hreflang nur für Sprachen, in denen die Seite tatsächlich existiert
+const alternates = (Object.keys(languages) as Lang[]).flatMap((l) => {
+  const href = routes[route][l];
+  return href ? [{ lang: l, href }] : [];
+});
 ---
 
 <!doctype html>

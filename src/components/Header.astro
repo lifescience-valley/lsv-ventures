@@ -40,7 +40,7 @@ const home = routes.home[lang];
           (Object.keys(languages) as Lang[]).map((l) => (
             <li>
               <a
-                href={routes[route][l]}
+                href={routes[route][l] ?? routes.home[l]}
                 hreflang={l}
                 lang={l}
                 aria-current={l === lang ? 'true' : undefined}
