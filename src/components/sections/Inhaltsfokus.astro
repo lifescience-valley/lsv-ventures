@@ -1,0 +1,125 @@
+---
+import { Image } from 'astro:assets';
+import { criteriaIcons } from '../../data/site';
+import { getLang, useTranslations } from '../../i18n';
+
+const t = useTranslations(getLang(Astro.currentLocale)).contentFocus;
+const criteria = t.criteria.map((c, i) => ({ ...c, icon: criteriaIcons[i]! }));
+---
+
+<section class="content-focus section bg-mint" id="inhaltsfokus">
+  <div class="container">
+    <p class="eyebrow">{t.eyebrow}</p>
+    <h2 class="title">{t.titleLine1}<br />{t.titleLine2}</h2>
+
+    <div class="areas">
+      <h3>{t.areasTitle}</h3>
+      <ul>
+        {t.areas.map((area) => <li>{area}</li>)}
+      </ul>
+    </div>
+
+    <ul class="criteria">
+      {
+        criteria.map((c) => (
+          <li class="criterion">
+            <Image src={c.icon} alt="" class="criterion-icon" />
+            <div class="criterion-body">
+              <h3>{c.title}</h3>
+              <p>{c.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .eyebrow {
+    color: var(--petrol);
+    margin-bottom: 0.5rem;
+  }
+
+  .title {
+    color: var(--petrol);
+    font-size: var(--fs-h2);
+    margin-bottom: 2.5rem;
+  }
+
+  .areas {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .areas h3 {
+    color: var(--muted);
+    font-size: clamp(1.15rem, 1rem + 0.5vw, 1.375rem);
+  }
+
+  .areas ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    font-size: 0.9375rem;
+  }
+
+  .areas li {
+    margin-bottom: 0.35rem;
+  }
+
+  .areas li::marker {
+    color: var(--green);
+  }
+
+  .criteria {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .criterion {
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    box-shadow: 0 6px 24px rgba(0, 105, 100, 0.06);
+  }
+
+  .criterion :global(.criterion-icon) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 427 / 190;
+    object-fit: cover;
+  }
+
+  .criterion-body {
+    padding: 1.5rem 1.5rem 1.75rem;
+  }
+
+  .criterion h3 {
+    color: var(--petrol);
+    font-size: var(--fs-h3);
+  }
+
+  .criterion p {
+    margin: 0;
+    font-size: 0.9375rem;
+  }
+
+  @media (max-width: 1000px) {
+    .criteria {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .criteria {
+      grid-template-columns: 1fr;
+    }
+
+    .title br {
+      display: none;
+    }
+  }
+</style>

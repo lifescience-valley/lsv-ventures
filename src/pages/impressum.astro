@@ -1,0 +1,63 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { company } from '../data/site';
+---
+
+<LegalLayout title="Impressum" route="imprint">
+  <h1>Impressum</h1>
+
+  <p>
+    <strong>{company.name}</strong><br />
+    {company.street}<br />
+    {company.zipCity}
+  </p>
+
+  <p>
+    Handelsregister: 206825<br />
+    Registergericht: Amtsgericht Göttingen
+  </p>
+
+  <p>
+    <strong>Vertreten durch die Geschäftsführer:</strong><br />
+    Marco Janezic<br />
+    Sven Wagner
+  </p>
+
+  <h2>Kontakt</h2>
+  <p>
+    Telefon: <a href={`tel:${company.phoneIntl}`}>{company.phoneIntlDisplay}</a><br />
+    E-Mail: <a href={`mailto:${company.email}`}>{company.email}</a>
+  </p>
+
+  <h2>Umsatzsteuer-ID</h2>
+  <p>
+    Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br />
+    UST-ID ist beantragt und wird nachgereicht.
+  </p>
+
+  <h2>Redaktionell verantwortlich</h2>
+  <p>
+    Frau Naomi Kramer<br />
+    {company.street}<br />
+    {company.zipCity}
+  </p>
+
+  <h2>Verbraucherstreitbeilegung / Universalschlichtungsstelle</h2>
+  <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+  <h2>Basis-Informationsblatt</h2>
+  <p>
+    <a class="btn" href="/downloads/LSVVM-Basisinformationsblatt.pdf" download>Download (PDF)</a>
+  </p>
+</LegalLayout>
+
+<style>
+  .btn {
+    color: var(--petrol) !important;
+  }
+
+  .btn:hover {
+    background: var(--petrol);
+    color: var(--white) !important;
+  }
+</style>

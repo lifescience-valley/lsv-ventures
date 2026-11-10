@@ -1,0 +1,80 @@
+---
+import { Image } from 'astro:assets';
+import { supporters } from '../data/site';
+import { getLang, routes, useTranslations } from '../i18n';
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang).footer;
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="legal-links">
+      <a href={routes.privacy[lang]}>{t.privacy}</a> / <a href={routes.imprint[lang]}>{t.imprint}</a>
+    </p>
+    <div class="supporters">
+      <span>{t.supportedBy}</span>
+      <ul>
+        {
+          supporters.map((s) => (
+            <li>
+              <Image src={s.image} alt={s.name} height={s.height * 2} style={`height:${s.height}px`} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--white);
+    padding-block: 2.5rem;
+    border-top: 1px solid #e6efed;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+  }
+
+  .legal-links {
+    margin: 0;
+    color: var(--petrol);
+  }
+
+  .legal-links a {
+    color: var(--petrol);
+  }
+
+  .legal-links a:hover {
+    color: var(--green);
+  }
+
+  .supporters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .supporters ul {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .supporters img {
+    width: auto;
+  }
+</style>

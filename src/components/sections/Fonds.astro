@@ -1,0 +1,163 @@
+---
+import Icon from '../Icon.astro';
+import { highlightData } from '../../data/site';
+import { getLang, useTranslations } from '../../i18n';
+
+const t = useTranslations(getLang(Astro.currentLocale)).fonds;
+const format = (n: number) => n.toLocaleString(t.numberLocale);
+const highlights = highlightData.map((h, i) => ({ ...h, ...t.highlights[i] }));
+---
+
+<section class="fonds section bg-mint" id="fonds" data-number-locale={t.numberLocale}>
+  <div class="container">
+    <header class="fonds-head">
+      <h2>{t.title}</h2>
+      <p>{t.text}</p>
+    </header>
+
+    <div class="highlights">
+      {
+        highlights.map((h) => (
+          <article class="highlight">
+            <p class:list={['counter', { 'counter--long': format(h.value).length > 6 }]}>
+              <span class="counter-value" data-target={h.value}>
+                {format(h.value)}
+              </span>
+              {h.suffix}
+              <span class="counter-label">{h.label}</span>
+            </p>
+            <div class="highlight-box">
+              <Icon name={h.icon} size={40} />
+              <h3>{h.title}</h3>
+            </div>
+            <p class="highlight-text">{h.text}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .fonds-head {
+    text-align: center;
+    max-width: 1100px;
+    margin: 0 auto clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .fonds-head h2 {
+    color: var(--petrol);
+    font-size: var(--fs-display);
+  }
+
+  .fonds-head p {
+    font-size: 0.9375rem;
+  }
+
+  .highlights {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .counter {
+    margin: 0 0 1.25rem;
+    text-align: center;
+    color: var(--petrol);
+    font-size: clamp(2.2rem, 1.6rem + 1.8vw, 3.125rem);
+    font-weight: 500;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .highlight {
+    container-type: inline-size;
+  }
+
+  /* Sehr lange Zahl (999.999.999.999+) passt sich der Spaltenbreite an */
+  .counter--long {
+    font-size: min(3.125rem, 10cqi);
+  }
+
+  .counter--long .counter-label {
+    font-size: clamp(1.4rem, 1.2rem + 0.8vw, 1.9rem);
+  }
+
+  .counter-label {
+    display: block;
+    font-size: clamp(1.4rem, 1.2rem + 0.8vw, 1.9rem);
+  }
+
+  .highlight-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    min-height: 230px;
+    padding: 2rem 1.5rem;
+    background: var(--green);
+    color: var(--white);
+    text-align: center;
+  }
+
+  .highlight-box h3 {
+    margin: 0;
+    font-size: clamp(1.8rem, 1.4rem + 1.4vw, 3.125rem);
+  }
+
+  .highlight-text {
+    margin-top: 1.25rem;
+    font-size: 0.9375rem;
+  }
+
+  @media (max-width: 900px) {
+    .highlights {
+      grid-template-columns: 1fr;
+      max-width: 520px;
+      margin-inline: auto;
+    }
+
+    .highlight-box {
+      min-height: 170px;
+    }
+  }
+</style>
+
+<script>
+  // Zähler-Animation beim ersten Sichtbarwerden (respektiert prefers-reduced-motion)
+  const counters = document.querySelectorAll<HTMLElement>('.counter-value[data-target]');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fmt = new Intl.NumberFormat(document.getElementById('fonds')?.dataset.numberLocale ?? 'de-DE');
+
+  const animate = (el: HTMLElement) => {
+    const target = Number(el.dataset.target);
+    const duration = 2000;
+    const start = performance.now();
+    const step = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = fmt.format(Math.round(target * eased));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(entry.target as HTMLElement);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.5 },
+    );
+    counters.forEach((el) => {
+      el.textContent = '0';
+      observer.observe(el);
+    });
+  }
+</script>

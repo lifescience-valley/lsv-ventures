@@ -1,0 +1,65 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { RouteKey } from '../i18n';
+
+interface Props {
+  title: string;
+  route: RouteKey;
+}
+
+const { title, route } = Astro.props;
+---
+
+<BaseLayout title={title} route={route}>
+  <article class="legal section">
+    <div class="container legal-inner">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal-inner {
+    max-width: calc(860px + 2 * var(--gutter));
+    font-size: 0.9375rem;
+    overflow-wrap: anywhere;
+  }
+
+  .legal :global(h1) {
+    color: var(--petrol);
+    font-size: var(--fs-h2);
+    margin-bottom: 1.5rem;
+  }
+
+  .legal :global(h2) {
+    color: var(--petrol);
+    font-size: var(--fs-h3);
+    margin-top: 2.5rem;
+  }
+
+  .legal :global(h3) {
+    color: var(--petrol);
+    font-size: 1.2rem;
+    margin-top: 2rem;
+  }
+
+  .legal :global(h4) {
+    font-size: 1.05rem;
+    margin-top: 1.5rem;
+  }
+
+  .legal :global(a) {
+    color: var(--green);
+  }
+
+  .legal :global(ul) {
+    padding-left: 1.25rem;
+  }
+
+  .legal :global(.legal-note) {
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    background: var(--mint-light);
+    border-left: 3px solid var(--green);
+  }
+</style>

@@ -1,0 +1,286 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/images/brand/logo.svg';
+import { getLang, languages, routes, useTranslations, type Lang, type RouteKey } from '../i18n';
+
+interface Props {
+  route: RouteKey;
+}
+
+const { route } = Astro.props;
+const lang = getLang(Astro.currentLocale);
+const dict = useTranslations(lang);
+const t = dict.header;
+const home = routes.home[lang];
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href={home} class="brand" aria-label={t.homeAria}>
+      <Image src={logo} alt="" width={200} height={65} loading="eager" />
+    </a>
+
+    <div class="header-actions">
+      <nav id="hauptnavigation" class="main-nav" aria-label={t.navAria}>
+        <ul>
+          {
+            dict.nav.map((item) => (
+              <li>
+                <a href={`${home}#${item.id}`} data-section={item.id}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <ul class="lang-switch" aria-label={t.langSwitchAria}>
+        {
+          (Object.keys(languages) as Lang[]).map((l) => (
+            <li>
+              <a
+                href={routes[route][l]}
+                hreflang={l}
+                lang={l}
+                aria-current={l === lang ? 'true' : undefined}
+                title={languages[l].name}
+              >
+                {languages[l].label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="hauptnavigation"
+        data-label-open={t.menuOpen}
+        data-label-close={t.menuClose}
+      >
+        <span class="sr-only">{t.menuOpen}</span>
+        <span class="bars" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--petrol);
+    color: var(--white);
+    box-shadow: 0 2px 0 rgba(19, 233, 161, 0.15);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--header-h);
+    gap: 1.5rem;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2.5vw, 2.5rem);
+  }
+
+  .lang-switch {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0 0 0 clamp(1rem, 2.5vw, 2.5rem);
+    list-style: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
+  }
+
+  .lang-switch li + li::before {
+    content: '/';
+    padding-inline: 0.35rem;
+    opacity: 0.5;
+  }
+
+  .lang-switch a {
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    opacity: 0.7;
+  }
+
+  .lang-switch a:hover {
+    opacity: 1;
+    color: var(--mint);
+  }
+
+  .lang-switch a[aria-current='true'] {
+    opacity: 1;
+    color: var(--mint);
+  }
+
+  .brand img {
+    width: clamp(150px, 16vw, 200px);
+    height: auto;
+  }
+
+  .main-nav ul {
+    display: flex;
+    gap: clamp(0.75rem, 2.2vw, 2.4rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .main-nav a {
+    display: block;
+    padding: 0.5rem 0;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .main-nav a:hover,
+  .main-nav a.is-active {
+    border-color: var(--mint);
+  }
+
+  .menu-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: var(--white);
+    cursor: pointer;
+  }
+
+  .bars,
+  .bars::before,
+  .bars::after {
+    display: block;
+    width: 24px;
+    height: 2px;
+    margin-inline: auto;
+    background: currentColor;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .bars {
+    position: relative;
+  }
+
+  .bars::before,
+  .bars::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+
+  .bars::before {
+    top: -7px;
+  }
+
+  .bars::after {
+    top: 7px;
+  }
+
+  .menu-toggle[aria-expanded='true'] .bars {
+    background: transparent;
+  }
+
+  .menu-toggle[aria-expanded='true'] .bars::before {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .menu-toggle[aria-expanded='true'] .bars::after {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  @media (max-width: 1024px) {
+    .menu-toggle {
+      display: block;
+    }
+
+    .main-nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      display: none;
+      background: var(--petrol);
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .main-nav.is-open {
+      display: block;
+    }
+
+    .main-nav ul {
+      flex-direction: column;
+      gap: 0;
+      padding: 0.5rem var(--gutter) 1rem;
+    }
+
+    .main-nav a {
+      padding: 0.85rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .main-nav a:hover,
+    .main-nav a.is-active {
+      color: var(--mint);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = document.querySelector<HTMLElement>('.main-nav');
+
+  if (toggle && nav) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      nav.classList.toggle('is-open', open);
+      toggle.querySelector('.sr-only')!.textContent = (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) ?? '';
+    };
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
+  }
+
+  // Aktiven Menüpunkt beim Scrollen hervorheben (nur auf der Startseite)
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.main-nav a[data-section]')];
+  const sections = links
+    .map((link) => document.getElementById(link.dataset.section ?? ''))
+    .filter((el): el is HTMLElement => el !== null);
+
+  // Hero/Fonds haben keinen Menüpunkt: dort wird die Hervorhebung zurückgesetzt
+  ['start', 'fonds'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) sections.push(el);
+  });
+
+  if (sections.length) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          links.forEach((link) => link.classList.toggle('is-active', link.dataset.section === entry.target.id));
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    );
+    sections.forEach((section) => observer.observe(section));
+  }
+</script>

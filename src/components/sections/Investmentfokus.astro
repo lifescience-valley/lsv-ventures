@@ -1,0 +1,116 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '../Icon.astro';
+import daisy from '../../assets/images/investment-gaensebluemchen.jpg';
+import { getLang, useTranslations } from '../../i18n';
+
+const t = useTranslations(getLang(Astro.currentLocale)).invest;
+const pillarIcons = ['pin', 'rocket', 'pulse'] as const;
+const pillars = t.pillars.map((label, i) => ({ label, icon: pillarIcons[i] ?? 'pulse' }));
+---
+
+<section class="invest bg-petrol" id="investmentfokus">
+  <div class="invest-grid">
+    <div class="invest-text">
+      <h2 class="invest-title">{t.title}</h2>
+      <h3 class="invest-sub">{t.subtitle}</h3>
+      {t.paragraphs.map((p) => <p>{p}</p>)}
+
+      <h3 class="invest-sub">{t.focusTitle}</h3>
+      <ul class="pillars">
+        {
+          pillars.map((p) => (
+            <li>
+              <Icon name={p.icon} size={34} />
+              <span>{p.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p>{t.closing}</p>
+    </div>
+    <div class="invest-media">
+      <Image
+        src={daisy}
+        alt={t.imageAlt}
+        widths={[480, 800, 1200]}
+        sizes="(max-width: 900px) 100vw, 50vw"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .invest-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-height: 720px;
+  }
+
+  .invest-text {
+    padding: clamp(56px, 8vw, 100px) clamp(16px, 5vw, 80px) clamp(56px, 8vw, 100px)
+      max(var(--gutter), calc((100vw - var(--container)) / 2));
+    font-size: 0.9375rem;
+  }
+
+  .invest-title {
+    color: var(--mint);
+    font-size: var(--fs-display);
+  }
+
+  .invest-sub {
+    color: var(--mint);
+    font-size: var(--fs-h3);
+    margin-top: 1.5em;
+  }
+
+  .invest-title + .invest-sub {
+    margin-top: 0;
+  }
+
+  .pillars {
+    margin: 0 0 1.5rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pillars li {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 0.6rem 0;
+    color: var(--mint);
+    font-size: var(--fs-h3);
+    font-weight: 500;
+  }
+
+  .pillars :global(svg) {
+    flex: none;
+    color: var(--mint);
+    opacity: 0.85;
+  }
+
+  .invest-media {
+    position: relative;
+    min-height: 320px;
+  }
+
+  .invest-media :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 900px) {
+    .invest-grid {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+
+    .invest-text {
+      padding-inline: var(--gutter);
+    }
+  }
+</style>

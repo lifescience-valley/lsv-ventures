@@ -1,0 +1,11 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+// Text 1:1 von https://lsv-ventures.de/datenschutz übernommen.
+// ACHTUNG: Vor dem Livegang rechtlich prüfen lassen – die neue Seite nutzt u. a. kein
+// Cookie-Banner (Borlabs), keine Google Fonts (Schrift ist selbst gehostet) und kein Kontaktformular.
+import content from '../content/datenschutz.html?raw';
+---
+
+<LegalLayout title="Datenschutz" route="privacy">
+  <Fragment set:html={content} />
+</LegalLayout>

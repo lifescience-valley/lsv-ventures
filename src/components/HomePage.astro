@@ -1,0 +1,24 @@
+---
+// Startseite – wird für jede Sprache aus src/pages/(en/)index.astro eingebunden.
+// Die Sprache ergibt sich automatisch aus der URL (Astro.currentLocale).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from './sections/Hero.astro';
+import Fonds from './sections/Fonds.astro';
+import Investmentfokus from './sections/Investmentfokus.astro';
+import Inhaltsfokus from './sections/Inhaltsfokus.astro';
+import News from './sections/News.astro';
+import Team from './sections/Team.astro';
+import Portfolio from './sections/Portfolio.astro';
+import Kontakt from './sections/Kontakt.astro';
+---
+
+<BaseLayout route="home">
+  <Hero />
+  <Fonds />
+  <Investmentfokus />
+  <Inhaltsfokus />
+  <News />
+  <Team />
+  <Portfolio />
+  <Kontakt />
+</BaseLayout>
