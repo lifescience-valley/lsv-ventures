@@ -12,8 +12,7 @@ const legalLang = (key: 'privacy' | 'imprint') => (routes[key][lang] ? undefined
 <footer class="site-footer">
   <div class="container footer-inner">
     <p class="legal-links">
-      <a href={pathFor('privacy', lang)} hreflang={legalLang('privacy')}>{t.privacy}</a> /
-      <a href={pathFor('imprint', lang)} hreflang={legalLang('imprint')}>{t.imprint}</a>
+      <a href={pathFor('privacy', lang)} hreflang={legalLang('privacy')}>{t.privacy}</a> / <a href={pathFor('imprint', lang)} hreflang={legalLang('imprint')}>{t.imprint}</a>
     </p>
     <div class="supporters">
       <span>{t.supportedBy}</span>

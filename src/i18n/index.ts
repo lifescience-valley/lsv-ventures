@@ -36,3 +36,17 @@ export type RouteKey = keyof typeof routes;
 export function pathFor(route: RouteKey, lang: Lang): string {
   return routes[route][lang] ?? routes[route].de;
 }
+
+/** URLs einer Seite je Sprache (für Sprachumschalter und hreflang). */
+export type PagePaths = Partial<Record<Lang, string>> & { de: string };
+
+const prefix = (lang: Lang) => (lang === defaultLang ? '' : `/${lang}`);
+
+/** Newsartikel: Slugs wie auf der alten Seite (/<slug>), englisch unter /en/<slug>. */
+export const newsPath = (slug: string, lang: Lang) => `${prefix(lang)}/${slug}`;
+
+/** Portfolio-Unternehmen: /portfolio/<slug>, englisch unter /en/portfolio/<slug>. */
+export const portfolioPath = (slug: string, lang: Lang) => `${prefix(lang)}/portfolio/${slug}`;
+
+/** Alle Sprachfassungen einer Seite, deren URL nach demselben Muster gebildet wird. */
+export const allPaths = (build: (lang: Lang) => string): PagePaths => ({ de: build('de'), en: build('en') });

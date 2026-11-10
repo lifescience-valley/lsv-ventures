@@ -2,22 +2,25 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { getLang, languages, routes, useTranslations, type Lang, type RouteKey } from '../i18n';
+import { getLang, languages, routes, useTranslations, type Lang, type PagePaths, type RouteKey } from '../i18n';
 
 interface Props {
   title?: string;
   description?: string;
   /** Welche Seite das ist – für Sprachumschalter und hreflang-Links */
-  route: RouteKey;
+  route?: RouteKey;
+  /** Alternativ: URLs je Sprache direkt angeben (z. B. für News- und Portfolio-Seiten) */
+  paths?: PagePaths;
 }
 
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang).meta;
-const { title, description = t.description, route } = Astro.props;
+const { title, description = t.description, route = 'home', paths } = Astro.props;
+const pagePaths: PagePaths = paths ?? routes[route];
 const pageTitle = `${title ?? t.homeTitle} – ${t.siteName}`;
 // hreflang nur für Sprachen, in denen die Seite tatsächlich existiert
 const alternates = (Object.keys(languages) as Lang[]).flatMap((l) => {
-  const href = routes[route][l];
+  const href = pagePaths[l];
   return href ? [{ lang: l, href }] : [];
 });
 ---
@@ -32,7 +35,7 @@ const alternates = (Object.keys(languages) as Lang[]).flatMap((l) => {
     <meta name="theme-color" content="#006964" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     {alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={new URL(a.href, Astro.site ?? Astro.url).href} />)}
-    <link rel="alternate" hreflang="x-default" href={new URL(routes[route].de, Astro.site ?? Astro.url).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(pagePaths.de, Astro.site ?? Astro.url).href} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -40,7 +43,7 @@ const alternates = (Object.keys(languages) as Lang[]).flatMap((l) => {
   </head>
   <body>
     <a class="skip-link" href="#inhalt">{t.skipLink}</a>
-    <Header route={route} />
+    <Header paths={pagePaths} />
     <main id="inhalt">
       <slot />
     </main>

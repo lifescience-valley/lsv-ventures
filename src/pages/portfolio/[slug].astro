@@ -1,0 +1,12 @@
+---
+import PortfolioDetail from '../../components/PortfolioDetail.astro';
+import { portfolioData } from '../../data/site';
+
+export function getStaticPaths() {
+  return portfolioData.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params as { slug: (typeof portfolioData)[number]['slug'] };
+---
+
+<PortfolioDetail slug={slug} />

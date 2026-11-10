@@ -103,6 +103,11 @@ export const de = {
 
   news: {
     title: 'Aktuelle Neuigkeiten',
+    readMore: 'Weiterlesen',
+    back: 'Zurück zur Startseite',
+    pressPdf: 'Offizielle Pressemitteilung (PDF)',
+    imageAlt: 'Bild zum Artikel',
+    // Reihenfolge wie in src/data/news.ts
     items: [
       { date: 'August 2024', title: 'Digity sichert sich 1,4 Millionen Euro Seed-Finanzierung für Präventions-Exoskelett ARTUS' },
       { date: 'Juni 2024', title: 'Cultimate Foods erhält 2,3 Mio. Euro Seed-Finanzierung von führenden Biotech- und Foodtech-Investoren, um die alternative Fleischindustrie zu revolutionieren' },
@@ -135,6 +140,36 @@ export const de = {
       'Exoskelett-Technologie',
       'Food, Nutrition & Personal Care',
     ],
+    // Beschreibungstexte der Detailseiten (Reihenfolge wie portfolioData in src/data/site.ts)
+    descriptions: [
+      [
+        'Allogenetics entwickelt neuartige Gentherapien zur Verbesserung der Organtransplantation.',
+        'Das Lead-Programm ALG-115 wird einmalig ex vivo im Spenderorgan angewendet und soll durch eine gezielte Reduktion der MHC-I- und MHC-II-Expression die Immunogenität des Organs verringern. Ziel ist es, Abstoßungsreaktionen und den Bedarf an langfristiger Immunsuppression zu reduzieren und damit Transplantationsergebnisse nachhaltig zu verbessern. Der initiale Fokus liegt auf der Lungentransplantation.',
+      ],
+      [
+        'Onyx Biotech entwickelt Best-in-Class-Algorithmen und Workflows, um aufwändige experimentelle Schritte in der High-Tech-Medikamentenentwicklung (z. B. bei der Aufreinigung von Antikörpern für die Behandlung von Krebs) durch intelligente Simulationen zu ersetzen – mit dem Ziel, die Entwicklungszeiten für lebenswichtige Medikamente zu reduzieren. Damit adressiert Onyx Biotech einen der größten Engpässe in der Entwicklung moderner Biologika, deren Bedeutung in der Medizin stetig wächst.',
+      ],
+      ['KI-gestützte Plattform zur Entwicklung neuartiger bispezifischer Therapeutika.'],
+      [
+        'brainQr Therapeutics entwickelt Therapien gegen neurodegenerative Erkrankungen, indem fehlgefaltete Proteine gezielt stabilisiert werden. Der Schwerpunkt liegt auf Tau, einem Schlüsselprotein bei Alzheimer und über 30 weiteren Krankheiten. Das Unternehmen wurde von Prof. Dr. Markus Zweckstetter gegründet und hat seinen Sitz in Göttingen.',
+      ],
+      [
+        'Die Digity GmbH ist ein Unternehmen im Bereich der Exoskelett-Technologie. Gegründet 2023 als Spin-off des Universitätsklinikums Göttingen, entwickelt und produziert Digity innovative Lösungen zur Verbesserung der Ergonomie und Arbeitssicherheit in verschiedenen Industrien. Das erste Produkt, ARTUS, ist ein passives Exoskelett, das speziell für die Finger entwickelt und bereits mehrfach ausgezeichnet wurde.',
+      ],
+      [
+        'Cultimate Foods ist ein Unternehmen im Bereich der zellulären Landwirtschaft, das alternatives Fett für Fleischprodukte auf pflanzlicher Basis herstellt. Im Gegensatz zu anderen Fettalternativen schafft das Unternehmen eine einzigartige Lipidzusammensetzung des Fetts, die für einen authentischen Schweine- und Rindfleischgeschmack sorgt. Das Unternehmen hat bisher mehr als 3 Millionen Euro eingeworben und wird von den starken Life-Science-Investoren HTGF, b.value und Life Science Valley Wachstumsfonds sowie den größten Foodtech-Fonds Big Idea Ventures, ProVeg International und Kale United unterstützt.',
+      ],
+    ],
+    detailsAria: 'Mehr über',
+    sectorLabel: 'Branche',
+    contactPersonLabel: 'Ansprechpartnerin',
+    contactLabel: 'Kontakt',
+    websiteLabel: 'Website',
+    pressLink: 'Zur Pressemitteilung auf LinkedIn',
+    newsTitle: 'Pressemeldungen & News',
+    back: 'Zurück zum Portfolio',
+    logoAlt: 'Logo von',
+    imageAlt: 'Bild zu',
     joinTitle: 'Werden Sie Teil unseres Portfolios',
     joinParagraphs: [
       'Sie sind Gründer:in im Bereich Life Sciences und auf der Suche nach einer Finanzierung für Ihr Startup?',

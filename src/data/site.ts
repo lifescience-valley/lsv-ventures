@@ -12,6 +12,16 @@ import brainqr from '../assets/images/portfolio/brainqr.jpg';
 import digity from '../assets/images/portfolio/digity.jpg';
 import cultimate from '../assets/images/portfolio/cultimate-foods.jpg';
 
+import allogeneticsFeatured from '../assets/images/portfolio/detail/allogenetics-featured.png';
+import allogeneticsLogo from '../assets/images/portfolio/detail/allogenetics-logo.png';
+import onyxFeatured from '../assets/images/portfolio/detail/onyx-featured.jpg';
+import onyxLogo from '../assets/images/portfolio/detail/onyx-logo.png';
+import brainqrFeatured from '../assets/images/portfolio/detail/brainqr-featured.jpg';
+import digityLogo from '../assets/images/portfolio/detail/digity-logo.jpg';
+import cultimateLogo from '../assets/images/portfolio/detail/cultimate-logo.png';
+import digityFeatured from '../assets/images/news/digity-team-investoren.jpg';
+import cultimateFeatured from '../assets/images/news/cultimate-foods.jpg';
+
 import iconMarkt from '../assets/images/icons/lsv-icon-markt.svg';
 import iconTeam from '../assets/images/icons/lsv-icon-team.svg';
 import iconSynergie from '../assets/images/icons/lsv-icon-wertvolle-synergie.svg';
@@ -52,15 +62,92 @@ export const teamData = [
   { name: 'Gabriele Burgstaller', image: gabriele },
 ];
 
-/** Portfolio (Texte: portfolio.sectors). */
+/** Ansprechpartnerin für alle Portfolio-Unternehmen (laut alter Seite). */
+export const portfolioContact = { name: 'Naomi Maureen Kramer', role: 'Investment Manager' };
+
+/**
+ * Portfolio (Texte: portfolio.sectors und portfolio.companies – gleiche Reihenfolge).
+ * image = Kachel auf der Startseite, featured = großes Bild der Detailseite, logo = Logo in der Seitenleiste.
+ * featuredFit 'contain' für Logos/Grafiken, die nicht beschnitten werden dürfen.
+ */
 export const portfolioData = [
-  { name: 'Allogenetics GmbH', image: allogenetics },
-  { name: 'Onyx Biotech', image: onyx },
-  { name: 'Stealth Startup', image: stealth },
-  { name: 'brainQr Therapeutics', image: brainqr },
-  { name: 'Digity GmbH', image: digity },
-  { name: 'Cultimate Foods', image: cultimate },
-];
+  {
+    slug: 'allogenetics-gmbh',
+    name: 'Allogenetics GmbH',
+    image: allogenetics,
+    featured: allogeneticsFeatured,
+    featuredFit: 'contain',
+    logo: allogeneticsLogo,
+    address: 'Feodor-Lynen-Str. 5, 30625 Hannover',
+    email: 'naomi.kramer@lsv-ventures.de',
+    website: 'https://www.allogenetics.com',
+    pressLink: 'https://www.linkedin.com/posts/allogenetics_pre-series-a-pr-activity-7503377380015771648-KuGx',
+  },
+  {
+    slug: 'onyx-biotech',
+    name: 'Onyx Biotech',
+    image: onyx,
+    featured: onyxFeatured,
+    featuredFit: 'cover',
+    logo: onyxLogo,
+    address: 'Zeisigstr. 38, 85591 Vaterstetten',
+    email: 'info@onyx-biotech.com',
+    website: 'https://www.onyx-biotech.com',
+  },
+  {
+    slug: 'stealth-startup',
+    name: 'Stealth Startup',
+    image: stealth,
+    featured: stealth,
+    featuredFit: 'contain',
+    logo: undefined,
+    email: 'naomi.kramer@lsv-ventures.de',
+  },
+  {
+    slug: 'brainqr-therapeutics',
+    name: 'brainQr Therapeutics',
+    image: brainqr,
+    featured: brainqrFeatured,
+    featuredFit: 'cover',
+    logo: undefined,
+    address: 'Von-Siebold-Str. 3a, 37075 Göttingen',
+    email: 'info@brainqrtherapeutics.com',
+    website: 'https://brainqrtherapeutics.com',
+  },
+  {
+    slug: 'digity-gmbh',
+    name: 'Digity GmbH',
+    image: digity,
+    featured: digityFeatured,
+    featuredFit: 'cover',
+    logo: digityLogo,
+    address: 'Karl-Grüneklee-Str. 22, 37077 Göttingen',
+    email: 'viola.bartels@digity.de',
+    website: 'https://www.digity.de',
+  },
+  {
+    slug: 'cultimate-foods',
+    name: 'Cultimate Foods',
+    image: cultimate,
+    featured: cultimateFeatured,
+    featuredFit: 'cover',
+    logo: cultimateLogo,
+    address: 'Goethestr. 5, 10623 Berlin',
+    email: 'hello@cultimatefoods.com',
+    website: 'https://www.cultimatefoods.com',
+  },
+] as const satisfies readonly {
+  slug: string;
+  name: string;
+  image: ImageMetadata;
+  featured: ImageMetadata;
+  featuredFit: 'cover' | 'contain';
+  logo: ImageMetadata | undefined;
+  address?: string;
+  email: string;
+  website?: string;
+  pressLink?: string;
+}[];
 
 export const supporters = [
   { name: 'NBank', image: nbank, height: 40 },

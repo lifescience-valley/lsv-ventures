@@ -7,6 +7,8 @@ Neuaufbau von [lsv-ventures.de](https://lsv-ventures.de) mit [Astro](https://ast
 | Startseite | `/` | `/en/` |
 | Impressum | `/impressum` | – (nur Deutsch, Footer verlinkt die deutsche Fassung) |
 | Datenschutz | `/datenschutz` | – (nur Deutsch, Footer verlinkt die deutsche Fassung) |
+| Newsartikel | `/<slug>` (wie auf der alten Seite) | `/en/<slug>` |
+| Portfolio-Unternehmen | `/portfolio/<slug>` | `/en/portfolio/<slug>` |
 
 ## Lokal starten
 
@@ -43,6 +45,8 @@ public/                Favicon und Downloads (Basis-Informationsblatt)
 
 - **Texte (beide Sprachen):** `src/i18n/de.ts` und `src/i18n/en.ts`. Beide Dateien haben dieselbe Struktur; `astro check` meldet einen Fehler, wenn im Englischen ein Feld fehlt.
 - **Team, Portfolio, Kennzahlen:** Bilder/Namen/Zahlen in `src/data/site.ts`, die zugehörigen Texte (Rolle, Branche …) in den i18n-Dateien – jeweils in derselben Reihenfolge.
+- **News:** Bild/Datum/Slug in `src/data/news.ts`, Titel in `news.items` (i18n), Artikeltext als HTML in `src/content/news/<key>.de.html` bzw. `.en.html`. Fehlt die englische Datei, wird die deutsche angezeigt.
+- **Portfolio-Detailseiten:** Kontaktdaten, Website, Logo und Titelbild in `portfolioData` (`src/data/site.ts`), Beschreibung in `portfolio.descriptions` (i18n).
 - **Neues Bild:** in `src/assets/images/…` ablegen und in `src/data/site.ts` importieren.
 - **Impressum/Datenschutz:** `src/pages/impressum.astro`, `src/pages/datenschutz.astro` mit `src/content/datenschutz.html` – nur auf Deutsch, die englischen Seiten verlinken im Footer auf die deutsche Fassung.
 - **Farben/Schrift:** CSS-Variablen in `src/styles/global.css` (`--petrol`, `--mint`, `--green`, …).

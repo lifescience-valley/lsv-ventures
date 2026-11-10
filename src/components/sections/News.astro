@@ -1,7 +1,10 @@
 ---
-import { getLang, useTranslations } from '../../i18n';
+import { newsData } from '../../data/news';
+import { getLang, newsPath, useTranslations } from '../../i18n';
 
-const t = useTranslations(getLang(Astro.currentLocale)).news;
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang).news;
+const items = newsData.map((n, i) => ({ ...t.items[i], href: newsPath(n.slug, lang), datetime: n.date }));
 ---
 
 <section class="news section bg-petrol" id="neuigkeiten">
@@ -9,10 +12,17 @@ const t = useTranslations(getLang(Astro.currentLocale)).news;
     <h2>{t.title}</h2>
     <ul class="news-list">
       {
-        t.items.map((item) => (
+        items.map((item) => (
           <li class="news-item">
-            <p class="news-date">{item.date}</p>
-            <h3>{item.title}</h3>
+            <p class="news-date">
+              <time datetime={item.datetime}>{item.date}</time>
+            </p>
+            <h3>
+              <a href={item.href}>{item.title}</a>
+            </h3>
+            <p class="news-more" aria-hidden="true">
+              {t.readMore} →
+            </p>
           </li>
         ))
       }
@@ -35,6 +45,7 @@ const t = useTranslations(getLang(Astro.currentLocale)).news;
   }
 
   .news-item {
+    position: relative;
     padding: 0.5rem clamp(1.25rem, 3vw, 2.5rem);
     border-left: 1px solid rgba(19, 233, 161, 0.6);
   }
@@ -56,6 +67,31 @@ const t = useTranslations(getLang(Astro.currentLocale)).news;
     margin: 0;
     font-size: var(--fs-h3);
     line-height: 1.3;
+  }
+
+  /* Ganze Kachel klickbar */
+  .news-item h3 a {
+    text-decoration: none;
+  }
+
+  .news-item h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .news-item:hover h3 a,
+  .news-item h3 a:focus-visible {
+    text-decoration: underline;
+    text-decoration-color: var(--mint);
+  }
+
+  .news-more {
+    margin: 1rem 0 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--mint);
   }
 
   @media (max-width: 900px) {

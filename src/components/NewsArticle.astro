@@ -1,0 +1,156 @@
+---
+// Detailseite eines Newsartikels – eingebunden aus src/pages/[news].astro und src/pages/en/[news].astro.
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from './Icon.astro';
+import { newsBody, newsData } from '../data/news';
+import { allPaths, getLang, newsPath, routes, useTranslations } from '../i18n';
+
+interface Props {
+  key: (typeof newsData)[number]['key'];
+}
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang).news;
+const index = newsData.findIndex((n) => n.key === Astro.props.key);
+const article = newsData[index];
+const { title, date } = t.items[index];
+const body = newsBody(article.key, lang);
+---
+
+<BaseLayout title={title} description={title} paths={allPaths((l) => newsPath(article.slug, l))}>
+  <article>
+    <header class="article-head bg-petrol">
+      <div class="container narrow">
+        <p class="article-date"><time datetime={article.date}>{date}</time></p>
+        <h1>{title}</h1>
+      </div>
+    </header>
+
+    <div class="section article-body">
+      <div class="container narrow">
+        <Image
+          class="article-image"
+          src={article.image}
+          alt={`${t.imageAlt}: ${title}`}
+          widths={[640, 960, 1280, 1720]}
+          sizes="(max-width: 900px) 100vw, 860px"
+          loading="eager"
+        />
+
+        <div class="prose" set:html={body} />
+
+        {
+          article.gallery.length > 0 && (
+            <div class="gallery">
+              {article.gallery.map((img) => (
+                <Image src={img} alt={`${t.imageAlt}: ${title}`} widths={[480, 860]} sizes="(max-width: 900px) 100vw, 860px" />
+              ))}
+            </div>
+          )
+        }
+
+        <p class="actions">
+          {
+            article.pdf && (
+              <a class="btn btn-outline" href={article.pdf} download hreflang="de">
+                <Icon name="download" />
+                {t.pressPdf}
+              </a>
+            )
+          }
+          <a class="btn" href={`${routes.home[lang]}#neuigkeiten`}>{t.back}</a>
+        </p>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: calc(860px + 2 * var(--gutter));
+  }
+
+  .article-head {
+    padding-block: clamp(48px, 7vw, 88px) clamp(40px, 5vw, 64px);
+  }
+
+  .article-date {
+    margin: 0 0 1rem;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--mint);
+  }
+
+  .article-head h1 {
+    margin: 0;
+    font-size: var(--fs-h2);
+    line-height: 1.2;
+  }
+
+  .article-body {
+    padding-top: clamp(32px, 5vw, 56px);
+  }
+
+  .article-image {
+    width: 100%;
+    height: auto;
+    max-height: 560px;
+    object-fit: cover;
+    object-position: center 30%;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  .prose {
+    overflow-wrap: anywhere;
+  }
+
+  .prose :global(h2) {
+    color: var(--petrol);
+    font-size: var(--fs-h3);
+    line-height: 1.35;
+    margin-bottom: 1.5rem;
+  }
+
+  .prose :global(p) {
+    margin-bottom: 1.1em;
+  }
+
+  .prose :global(p:first-child strong:only-child) {
+    font-weight: 600;
+  }
+
+  .prose :global(a) {
+    color: var(--green);
+  }
+
+  .gallery {
+    display: grid;
+    gap: 1.5rem;
+    margin-block: 2rem;
+  }
+
+  .gallery :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+
+  .btn-outline {
+    background: transparent;
+    box-shadow: inset 0 0 0 2px var(--petrol);
+  }
+
+  .btn-outline:hover,
+  .btn-outline:focus-visible {
+    background: var(--petrol);
+    color: var(--white);
+  }
+</style>

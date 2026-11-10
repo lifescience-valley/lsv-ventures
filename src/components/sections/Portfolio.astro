@@ -1,10 +1,11 @@
 ---
 import { Image } from 'astro:assets';
 import { company, portfolioData } from '../../data/site';
-import { getLang, useTranslations } from '../../i18n';
+import { getLang, portfolioPath, useTranslations } from '../../i18n';
 
-const t = useTranslations(getLang(Astro.currentLocale)).portfolio;
-const portfolio = portfolioData.map((p, i) => ({ ...p, sector: t.sectors[i] ?? '' }));
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang).portfolio;
+const portfolio = portfolioData.map((p, i) => ({ ...p, sector: t.sectors[i] ?? '', href: portfolioPath(p.slug, lang) }));
 ---
 
 <section class="portfolio section" id="portfolio">
@@ -15,11 +16,13 @@ const portfolio = portfolioData.map((p, i) => ({ ...p, sector: t.sectors[i] ?? '
       {
         portfolio.map((item) => (
           <li class="company">
-            <div class="deco-frame company-image">
-              <Image src={item.image} alt={item.name} width={320} height={320} fit="cover" />
-            </div>
-            <h3>{item.name}</h3>
-            <p>{item.sector}</p>
+            <a href={item.href} aria-label={`${t.detailsAria} ${item.name}`}>
+              <div class="deco-frame company-image">
+                <Image src={item.image} alt="" width={320} height={320} fit="cover" />
+              </div>
+              <h3>{item.name}</h3>
+              <p>{item.sector}</p>
+            </a>
           </li>
         ))
       }
@@ -63,6 +66,24 @@ const portfolio = portfolioData.map((p, i) => ({ ...p, sector: t.sectors[i] ?? '
     aspect-ratio: 1;
     object-fit: cover;
     background: var(--white);
+  }
+
+  .company > a {
+    display: block;
+    text-decoration: none;
+  }
+
+  .company-image :global(img) {
+    transition: transform 0.25s ease;
+  }
+
+  .company > a:hover .company-image :global(img),
+  .company > a:focus-visible .company-image :global(img) {
+    transform: scale(1.04);
+  }
+
+  .company > a:hover h3 {
+    text-decoration: underline;
   }
 
   .company h3 {

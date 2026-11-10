@@ -1,0 +1,10 @@
+---
+import NewsArticle from '../components/NewsArticle.astro';
+import { newsData } from '../data/news';
+
+export function getStaticPaths() {
+  return newsData.map((n) => ({ params: { news: n.slug }, props: { key: n.key } }));
+}
+---
+
+<NewsArticle key={Astro.props.key} />

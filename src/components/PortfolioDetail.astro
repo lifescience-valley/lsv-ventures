@@ -1,0 +1,311 @@
+---
+// Detailseite eines Portfolio-Unternehmens – eingebunden aus src/pages/(en/)portfolio/[slug].astro.
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from './Icon.astro';
+import { portfolioContact, portfolioData } from '../data/site';
+import { newsData } from '../data/news';
+import { allPaths, getLang, newsPath, portfolioPath, routes, useTranslations } from '../i18n';
+
+interface Props {
+  slug: (typeof portfolioData)[number]['slug'];
+}
+
+const lang = getLang(Astro.currentLocale);
+const dict = useTranslations(lang);
+const t = dict.portfolio;
+const index = portfolioData.findIndex((p) => p.slug === Astro.props.slug);
+const company = portfolioData[index];
+const sector = t.sectors[index];
+const description = t.descriptions[index] ?? [];
+const websiteLabel = (url: string) => url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+// Wie auf der alten Seite: die beiden neuesten Meldungen
+const latestNews = newsData.slice(0, 2).map((n, i) => ({ ...n, ...dict.news.items[i] }));
+---
+
+<BaseLayout title={company.name} description={description[0]} paths={allPaths((l) => portfolioPath(company.slug, l))}>
+  <header class="company-head bg-petrol">
+    <div class="container">
+      <p class="eyebrow">{sector}</p>
+      <h1>{company.name}</h1>
+    </div>
+  </header>
+
+  <div class="section company-body">
+    <div class="container layout">
+      <div class="main">
+        <div class:list={['featured', `featured--${company.featuredFit}`]}>
+          <Image
+            src={company.featured}
+            alt={`${t.imageAlt} ${company.name}`}
+            widths={[480, 800, 1200, 1600]}
+            sizes="(max-width: 900px) 100vw, 760px"
+            loading="eager"
+          />
+        </div>
+
+        <div class="description">
+          {description.map((p) => <p>{p}</p>)}
+          {
+            'pressLink' in company && company.pressLink && (
+              <p>
+                <a href={company.pressLink} target="_blank" rel="noopener">
+                  {t.pressLink}
+                </a>
+              </p>
+            )
+          }
+        </div>
+
+        <p>
+          <a class="btn" href={`${routes.home[lang]}#portfolio`}>{t.back}</a>
+        </p>
+      </div>
+
+      <aside class="facts" aria-label={company.name}>
+        {
+          company.logo && (
+            <div class="logo">
+              <Image src={company.logo} alt={`${t.logoAlt} ${company.name}`} width={480} />
+            </div>
+          )
+        }
+
+        <dl>
+          <dt>{t.sectorLabel}</dt>
+          <dd>{sector}</dd>
+
+          <dt>{t.contactPersonLabel}</dt>
+          <dd>
+            {portfolioContact.name}
+            <br />
+            <span class="muted">{portfolioContact.role}</span>
+          </dd>
+
+          <dt>{t.contactLabel}</dt>
+          <dd>
+            <ul class="contact">
+              {
+                'address' in company && company.address && (
+                  <li>
+                    <Icon name="pin" size={18} />
+                    <span>{company.address}</span>
+                  </li>
+                )
+              }
+              <li>
+                <Icon name="mail" size={18} />
+                <a href={`mailto:${company.email}`}>{company.email}</a>
+              </li>
+              {
+                'website' in company && company.website && (
+                  <li>
+                    <Icon name="globe" size={18} />
+                    <a href={company.website} target="_blank" rel="noopener">
+                      {websiteLabel(company.website)}
+                    </a>
+                  </li>
+                )
+              }
+            </ul>
+          </dd>
+        </dl>
+      </aside>
+    </div>
+  </div>
+
+  <section class="section bg-petrol related" aria-labelledby="related-title">
+    <div class="container">
+      <h2 id="related-title">{t.newsTitle}</h2>
+      <ul class="related-list">
+        {
+          latestNews.map((n) => (
+            <li>
+              <p class="related-date">{n.date}</p>
+              <a href={newsPath(n.slug, lang)}>{n.title}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .company-head {
+    padding-block: clamp(48px, 7vw, 88px) clamp(40px, 5vw, 64px);
+  }
+
+  .company-head .eyebrow {
+    margin: 0 0 0.75rem;
+    color: var(--mint);
+    font-size: 0.9375rem;
+  }
+
+  .company-head h1 {
+    margin: 0;
+    font-size: var(--fs-display);
+    line-height: 1.15;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .featured {
+    margin-bottom: 2rem;
+    background: var(--white);
+  }
+
+  .featured :global(img) {
+    width: 100%;
+    height: auto;
+    max-height: 520px;
+  }
+
+  .featured--cover :global(img) {
+    object-fit: cover;
+    object-position: center 25%;
+  }
+
+  .featured--contain {
+    padding: clamp(1rem, 3vw, 2rem);
+    border: 1px solid #e6efed;
+  }
+
+  .featured--contain :global(img) {
+    max-height: 360px;
+    object-fit: contain;
+  }
+
+  .description p {
+    font-size: 1.0625rem;
+  }
+
+  .description a {
+    color: var(--green);
+  }
+
+  .facts {
+    padding: clamp(1.5rem, 3vw, 2rem);
+    background: var(--mint-light);
+    border-top: 4px solid var(--mint);
+  }
+
+  .logo {
+    margin-bottom: 1.75rem;
+    padding: 1rem;
+    background: var(--white);
+  }
+
+  .logo :global(img) {
+    width: 100%;
+    max-height: 90px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  dl {
+    margin: 0;
+  }
+
+  dt {
+    margin-top: 1.25rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--petrol);
+  }
+
+  dt:first-child {
+    margin-top: 0;
+  }
+
+  dd {
+    margin: 0.3rem 0 0;
+    font-size: 0.9375rem;
+    overflow-wrap: anywhere;
+  }
+
+  .muted {
+    color: var(--muted);
+  }
+
+  .contact {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .contact li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+  }
+
+  .contact :global(svg) {
+    flex: none;
+    margin-top: 0.2em;
+    color: var(--green);
+  }
+
+  .contact a {
+    color: var(--petrol);
+  }
+
+  .contact a:hover {
+    color: var(--green);
+  }
+
+  .related h2 {
+    font-size: var(--fs-h3);
+    margin-bottom: 2rem;
+  }
+
+  .related-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .related-list li {
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--mint);
+  }
+
+  .related-date {
+    margin: 0 0 0.5rem;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--mint);
+  }
+
+  .related-list a {
+    font-size: 1.125rem;
+    font-weight: 500;
+    line-height: 1.4;
+    text-decoration: none;
+  }
+
+  .related-list a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--mint);
+  }
+
+  @media (max-width: 900px) {
+    .layout,
+    .related-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

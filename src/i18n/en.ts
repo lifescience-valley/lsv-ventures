@@ -105,6 +105,10 @@ export const en: Dictionary = {
 
   news: {
     title: 'Latest News',
+    readMore: 'Read more',
+    back: 'Back to home page',
+    pressPdf: 'Official press release (PDF, German)',
+    imageAlt: 'Article image',
     items: [
       { date: 'August 2024', title: 'Digity secures EUR 1.4 million seed funding for its preventive exoskeleton ARTUS' },
       { date: 'June 2024', title: 'Cultimate Foods raises EUR 2.3 million in seed funding from leading biotech and foodtech investors to revolutionise the alternative meat industry' },
@@ -137,6 +141,35 @@ export const en: Dictionary = {
       'Exoskeleton technology',
       'Food, Nutrition & Personal Care',
     ],
+    descriptions: [
+      [
+        'Allogenetics develops novel gene therapies to improve organ transplantation.',
+        'Its lead programme ALG-115 is applied once, ex vivo, to the donor organ and is designed to lower the organ’s immunogenicity by selectively reducing MHC class I and class II expression. The aim is to reduce rejection and the need for long-term immunosuppression, and thereby to improve transplant outcomes in the long run. The initial focus is on lung transplantation.',
+      ],
+      [
+        'Onyx Biotech develops best-in-class algorithms and workflows that replace laborious experimental steps in high-tech drug development (for example in the purification of antibodies for cancer treatment) with intelligent simulations – with the aim of shortening development times for life-saving medicines. In doing so, Onyx Biotech addresses one of the biggest bottlenecks in the development of modern biologics, whose importance in medicine continues to grow.',
+      ],
+      ['AI-driven platform for the development of novel bispecific therapeutics.'],
+      [
+        'brainQr Therapeutics develops therapies for neurodegenerative diseases by selectively stabilising misfolded proteins. Its focus is on tau, a key protein in Alzheimer’s disease and more than 30 other disorders. The company was founded by Prof. Dr. Markus Zweckstetter and is based in Göttingen.',
+      ],
+      [
+        'Digity GmbH is an exoskeleton technology company. Founded in 2023 as a spin-off of the University Medical Center Göttingen, Digity develops and manufactures innovative solutions that improve ergonomics and occupational safety across a range of industries. Its first product, ARTUS, is a passive exoskeleton designed specifically for the fingers and has already won several awards.',
+      ],
+      [
+        'Cultimate Foods is a cellular agriculture company producing alternative fat for plant-based meat products. Unlike other fat alternatives, the company creates a unique lipid composition that delivers an authentic pork and beef flavour. To date, the company has raised more than EUR 3 million and is backed by the strong life science investors HTGF, b.value and the Life Science Valley Growth Fund, as well as the largest foodtech funds Big Idea Ventures, ProVeg International and Kale United.',
+      ],
+    ],
+    detailsAria: 'More about',
+    sectorLabel: 'Sector',
+    contactPersonLabel: 'Contact person',
+    contactLabel: 'Contact',
+    websiteLabel: 'Website',
+    pressLink: 'Read the press release on LinkedIn',
+    newsTitle: 'Press releases & news',
+    back: 'Back to portfolio',
+    logoAlt: 'Logo of',
+    imageAlt: 'Image of',
     joinTitle: 'Join our portfolio',
     joinParagraphs: [
       'Are you a life science founder looking for funding for your start-up?',
