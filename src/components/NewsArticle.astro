@@ -4,7 +4,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from './Icon.astro';
 import { newsBody, newsData } from '../data/news';
-import { allPaths, getLang, newsPath, routes, useTranslations } from '../i18n';
+import { allPaths, getLang, newsPath, routes, useTranslations, withBase } from '../i18n';
 
 interface Props {
   key: (typeof newsData)[number]['key'];
@@ -53,7 +53,7 @@ const body = newsBody(article.key, lang);
         <p class="actions">
           {
             article.pdf && (
-              <a class="btn btn-outline" href={article.pdf} download hreflang="de">
+              <a class="btn btn-outline" href={withBase(article.pdf)} download hreflang="de">
                 <Icon name="download" />
                 {t.pressPdf}
               </a>

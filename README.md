@@ -56,4 +56,6 @@ public/                Favicon und Downloads (Basis-Informationsblatt)
 - Die Schrift „Work Sans“ wird selbst gehostet (`@fontsource/work-sans`), es werden keine Google-Server angefragt.
 - Es gibt keine Cookies, kein Tracking und kein Kontaktformular – der Kontakt läuft per `mailto:`-Link an info@lsv-ventures.de.
 - Die Datenschutzerklärung ist 1:1 von der alten Seite übernommen und erwähnt noch Borlabs Cookie, Google Fonts und das Kontaktformular. **Vor dem Livegang rechtlich prüfen und anpassen lassen.**
-- Hosting: rein statischer Build (`dist/`), läuft auf jedem Webspace oder bei Netlify, Vercel, GitHub Pages usw. Sobald die Domain feststeht, `site` in `astro.config.mjs` setzen.
+- Hosting: rein statischer Build (`dist/`), läuft auf jedem Webspace oder bei Netlify, Vercel, GitHub Pages usw.
+- **Vorschau:** Jeder Push auf `main` wird per GitHub Actions (`.github/workflows/deploy-pages.yml`) nach https://lifescience-valley.github.io/lsv-ventures/ veröffentlicht.
+- **Build-Variablen:** `SITE_URL` (z. B. `https://lsv-ventures.de`), `BASE_PATH` (Unterpfad, z. B. `/lsv-ventures`; für eine eigene Domain leer lassen) und `ALLOW_INDEXING`. Solange `ALLOW_INDEXING` nicht `true` ist, tragen alle Seiten `<meta name="robots" content="noindex">`. **Für den Livegang auf der echten Domain `ALLOW_INDEXING=true` setzen.**

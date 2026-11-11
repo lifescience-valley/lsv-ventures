@@ -20,14 +20,20 @@ export function useTranslations(lang: Lang): Dictionary {
   return dictionaries[lang];
 }
 
+/** Basispfad der Seite ohne abschließenden Slash ('' lokal, '/lsv-ventures' auf GitHub Pages). */
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+/** Stellt einem wurzelrelativen Pfad (z. B. '/downloads/x.pdf') den Basispfad voran. */
+export const withBase = (path: string) => `${base}${path}`;
+
 /**
  * Seiten mit ihren URLs je Sprache – Grundlage für Sprachumschalter und hreflang.
  * Impressum und Datenschutz gibt es bewusst nur auf Deutsch (rechtsverbindliche Fassung).
  */
 export const routes: Record<'home' | 'imprint' | 'privacy', Partial<Record<Lang, string>> & { de: string }> = {
-  home: { de: '/', en: '/en/' },
-  imprint: { de: '/impressum' },
-  privacy: { de: '/datenschutz' },
+  home: { de: withBase('/'), en: withBase('/en/') },
+  imprint: { de: withBase('/impressum') },
+  privacy: { de: withBase('/datenschutz') },
 };
 
 export type RouteKey = keyof typeof routes;
@@ -43,10 +49,10 @@ export type PagePaths = Partial<Record<Lang, string>> & { de: string };
 const prefix = (lang: Lang) => (lang === defaultLang ? '' : `/${lang}`);
 
 /** Newsartikel: Slugs wie auf der alten Seite (/<slug>), englisch unter /en/<slug>. */
-export const newsPath = (slug: string, lang: Lang) => `${prefix(lang)}/${slug}`;
+export const newsPath = (slug: string, lang: Lang) => withBase(`${prefix(lang)}/${slug}`);
 
 /** Portfolio-Unternehmen: /portfolio/<slug>, englisch unter /en/portfolio/<slug>. */
-export const portfolioPath = (slug: string, lang: Lang) => `${prefix(lang)}/portfolio/${slug}`;
+export const portfolioPath = (slug: string, lang: Lang) => withBase(`${prefix(lang)}/portfolio/${slug}`);
 
 /** Alle Sprachfassungen einer Seite, deren URL nach demselben Muster gebildet wird. */
 export const allPaths = (build: (lang: Lang) => string): PagePaths => ({ de: build('de'), en: build('en') });
